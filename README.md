@@ -39,5 +39,5 @@ You should now be able to visit http://localhost:8000 in your browser and start 
 If you want more control, edit .env file. There's quite a few settings there to tweak Baseapp to your needs.
 
 
-##Update
+## Update
 Check out Releases for upgrade guides corresponding to your Baseapp version.
