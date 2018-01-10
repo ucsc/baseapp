@@ -26,9 +26,9 @@ Baseapp has two components, each with its own set of requirements:
 From your console, run the following commands:
 
 ```
-cd PUBLIC_DIR
+cd YOUR_DIR
 git clone https://github.com/ucsc/baseapp.git .
-git checkout v1.1.0 # Check out the latest version at https://github.com/ucsc/baseapp/releases
+git checkout v0.1.0 # Check out the latest version at https://github.com/ucsc/baseapp/releases
 composer install
 php artisan baseapp:init # Populate credentials during the process
 ```
