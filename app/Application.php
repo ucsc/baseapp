@@ -19,7 +19,7 @@ class Application extends IlluminateApplication
      *
      * @link https://github.com/ucsc/baseapp/releases
      */
-    const BASEAPP_VERSION = 'v1.0.0';
+    const BASEAPP_VERSION = 'v0.1.0';
 
     /**
      * We have merged public path and base path.
