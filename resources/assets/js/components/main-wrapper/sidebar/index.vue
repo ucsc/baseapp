@@ -32,7 +32,6 @@
 
 <script>
 import isMobile from 'ismobilejs'
-
 import { event, $ } from '@/utils'
 import { sharedStore, userStore } from '@/stores'
 

@@ -86,46 +86,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../../sass/partials/_vars.scss";
-@import "../../../../sass/partials/_mixins.scss";
 
-#profileWrapper {
-  input {
-    &[type="text"], &[type="email"], &[type="password"] {
-      width: 192px;
-    }
 
-    &.error {
-      // Chrome won't give up its autofill style, so this is kind of a hack.
-      box-shadow: 0 0 0px 1000px #ff867a inset;
-    }
-  }
 
-  .change-pwd {
-    margin-top: 24px;
-  }
-
-  .status {
-    margin-left: 8px;
-    color: $colorGreen;
-  }
-
-  .preferences {
-    margin-top: 32px;
-    border-top: 1px solid $color2ndBgr;
-
-    label {
-      font-size: $fontSize;
-    }
-  }
-
-  @media only screen and (max-width : 667px) {
-    input {
-      &[type="text"], &[type="email"], &[type="password"] {
-        width: 100%;
-        height: 32px;
-      }
-    }
-  }
-}
 </style>

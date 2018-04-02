@@ -1,20 +1,14 @@
 <template>
-  <el-header :id="[currentView == 'home' ? 'mainHero' : 'mainHead']">
-    <h1 class="brand" v-once>{{ appTitle }}</h1>
-    <span class="hamburger" @click="toggleSidebar">
+  <div :id="[currentView == 'home' ? 'mainHero' : 'mainHead']">
+    <!-- <h1 class="brand" v-once>{{ appTitle }}</h1> -->
+    <!-- <span class="hamburger" @click="toggleSidebar">
       <i class="fa fa-bars"></i>
-    </span>
-    <user-badge/>
-  </el-header>
+    </span> -->
 
+    <navigation/>
+    <!-- <user-badge/> -->
+  </div>
 
-  <!-- <header :id="[currentView == 'home' ? 'mainHeroHeader' : 'mainHeader']">
-    <h1 class="brand" v-once>{{ appTitle }}</h1>
-    <span class="hamburger" @click="toggleSidebar">
-      <i class="fa fa-bars"></i>
-    </span>
-    <user-badge/>
-  </header> -->
 
 </template>
 
@@ -22,9 +16,10 @@
 import config from '@/config'
 import { event } from '@/utils'
 import userBadge from './user-badge.vue'
+import navigation from './navigation.vue'
 
 export default {
-  components: { userBadge },
+  components: { userBadge, navigation },
 
   data () {
     return {
@@ -34,12 +29,7 @@ export default {
   },
 
   methods: {
-    /**
-     * No I'm not documenting this.
-     */
-    toggleSidebar () {
-      event.emit('sidebar:toggle')
-    }
+
   },
 
   created () {
@@ -54,83 +44,22 @@ export default {
 @import "../../../sass/partials/_vars.scss";
 @import "../../../sass/partials/_mixins.scss";
 
-#mainHeader {
-  height: $headerHeight;
-  background: $color2ndBgr;
-  display: flex;
-  border-bottom: 1px solid $colorMainBgr;
-
-  h1.brand {
-    flex: 1;
-    color: $colorMainText;
-    font-size: 1.7rem;
-    font-weight: $fontWeight_UltraThin;
-    opacity: 0;
-    line-height: $headerHeight;
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
     text-align: center;
+    // line-height: 60px;
   }
 
-  .hamburger, .magnifier {
-    font-size: 1.4rem;
-    flex: 0 0 48px;
-    order: -1;
-    line-height: $headerHeight;
+   .el-main {
+    background-color: #E9EEF3;
+    color: #333;
     text-align: center;
-    display: none;
+    line-height: 160px;
+  }
+  
+  body > .el-container {
+    margin-bottom: 40px;
   }
 
-  @media only screen and (max-width: 667px) {
-    display: flex;
-    align-content: stretch;
-    justify-content: flext-start;
-
-    .hamburger, .magnifier {
-      display: inline-block;
-    }
-
-    h1.brand {
-      opacity: 1;
-    }
-  }
-}
-
-#mainHeroHeader {
-  height: $heroHeight;
-  background: $color2ndBgr;
-  display: flex;
-  border-bottom: 1px solid $colorMainBgr;
-
-  h1.brand {
-    flex: 1;
-    color: $colorMainText;
-    font-size: 1.7rem;
-    font-weight: $fontWeight_UltraThin;
-    opacity: 0;
-    line-height: $heroHeight;
-    text-align: center;
-  }
-
-  .hamburger, .magnifier {
-    font-size: 1.4rem;
-    flex: 0 0 48px;
-    order: -1;
-    line-height: $heroHeight;
-    text-align: center;
-    display: none;
-  }
-
-  @media only screen and (max-width: 667px) {
-    display: flex;
-    align-content: stretch;
-    justify-content: flext-start;
-
-    .hamburger, .magnifier {
-      display: inline-block;
-    }
-
-    h1.brand {
-      opacity: 1;
-    }
-  }
-}
 </style>

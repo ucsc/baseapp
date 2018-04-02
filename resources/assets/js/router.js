@@ -11,12 +11,16 @@ export default {
       loadMainView('home')
     },
 
+    '/about' () {
+      userStore.current.email && loadMainView('about')
+    },
+
     '/users' () {
       userStore.current.is_admin && loadMainView('users')
     },
 
     '/profile' () {
-      loadMainView('profile')
+      userStore.current.email && loadMainView('profile')
     }
 
   },
