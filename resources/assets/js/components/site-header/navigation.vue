@@ -1,27 +1,27 @@
 <template>
   <el-menu :default-active="activeIndex[currentView]" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1">
-      <a :class="['home', currentView == 'home' ? 'active' : '']" href="#!/home">Baseapp</a>
-    </el-menu-item>
-    <el-menu-item v-if="user.current.email" index="2">
-      <a :class="['about', currentView == 'about' ? 'active' : '']" href="#!/about">About</a>
-    </el-menu-item>
+    <a :class="['home', currentView == 'home' ? 'active' : '']" href="#!/home">
+      <el-menu-item index="1">Baseapp</el-menu-item>
+    </a>
+    <a v-if="user.current.email" :class="['about', currentView == 'about' ? 'active' : '']" href="#!/about">
+      <el-menu-item index="2">About</el-menu-item>
+    </a>
     <el-submenu v-if="user.current.is_admin" index="3">
       <template slot="title">Manage</template>
-      <el-menu-item index="3-1">
-        <a :class="['users', currentView == 'users' ? 'active' : '']" href="#!/users">Users</a>
-      </el-menu-item>
+      <a :class="['users', currentView == 'users' ? 'active' : '']" href="#!/users">
+        <el-menu-item index="3-1">Users</el-menu-item>
+      </a>
     </el-submenu>
-    <el-menu-item v-if="user.current.email" index="5" class="right">
-      <a class="logout" @click.prevent="logout"><i class="fa fa-sign-out control"></i></a>
-    </el-menu-item>
-    <el-menu-item v-else index="6" class="right">
-      <!-- <a class="login" @click="loginYes">Login</a> -->
-      <a class="login" href="login/hi">Login</a>
-    </el-menu-item>
-    <el-menu-item index="4" v-if="user.current.email" class="right">
-      <a :class="['profile', currentView == 'profile' ? 'active' : '']" href="#!/profile">{{ user.current.name }}</a>
-    </el-menu-item>
+    <a v-if="user.current.email" class="logout" @click.prevent="logout">
+      <el-menu-item index="5" class="right"><i class="fa fa-sign-out control"></i></el-menu-item>
+    </a>
+    <!-- <a class="login" @click="loginYes">Login</a> -->
+    <a v-else class="login" href="login/hi">
+      <el-menu-item index="6" class="right">Login</el-menu-item>
+    </a>
+    <a v-if="user.current.email" :class="['profile', currentView == 'profile' ? 'active' : '']" href="#!/profile">
+      <el-menu-item index="4" class="right">{{ user.current.name }}</el-menu-item>
+    </a>
   </el-menu>
 
 <!--   <div>

@@ -9,6 +9,10 @@
 
 // });
 
+// Route::get('login', function () {
+//     return redirect('/');
+// })->middleware('login');
+
 Route::get('login/{cruzid}', function () {
     return redirect('/');
 })->middleware('login.test');

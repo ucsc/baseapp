@@ -207,30 +207,8 @@ export const userStore = {
     return new Promise((resolve, reject) => {
       http.delete(`user/${user.id}`, {}, ({ data }) => {
         this.all = without(this.all, user)
-        alerts.success(`User &quot;${user.name}&quot; deleted.`)
+        // alerts.success(`User &quot;${user.name}&quot; deleted.`)
 
-        // Mama, just killed a man
-        // Put a gun against his head
-        // Pulled my trigger, now he's dead
-        // Mama, life had just begun
-        // But now I've gone and thrown it all away
-        // Mama, oooh
-        // Didn't mean to make you cry
-        // If I'm not back again this time tomorrow
-        // Carry on, carry on, as if nothing really matters
-        //
-        // Too late, my time has come
-        // Sends shivers down my spine
-        // Body's aching all the time
-        // Goodbye everybody - I've got to go
-        // Gotta leave you all behind and face the truth
-        // Mama, oooh
-        // I don't want to die
-        // I sometimes wish I'd never been born at all
-
-        /**
-         * Brian May enters the stage.
-         */
         resolve(data)
       }, error => reject(error))
     })
