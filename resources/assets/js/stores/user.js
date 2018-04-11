@@ -169,7 +169,7 @@ export const userStore = {
       http.post('user', { name, email, password }, ({ data: user }) => {
         this.setAvatar(user)
         this.all.unshift(user)
-        alerts.success(`New user &quot;${name}&quot; created.`)
+        alerts.success(`New user "${name}" created.`)
         resolve(user)
       }, error => reject(error))
     })

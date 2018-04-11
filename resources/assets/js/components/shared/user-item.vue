@@ -95,15 +95,16 @@ export default {
           type: 'warning'
         }).then(() => {
           userStore.destroy(this.user);
-          this.$message({
-            type: 'success',
-            message: 'User "' + this.user.name + '" deleted.'
+          this.$notify({
+            title: 'Success',
+            message: 'User "' + this.user.name + '" deleted.',
+            type: 'success'
           });
         }).catch(() => {
-          this.$message({
-            type: 'info',
+          this.$notify.info({
+            title: 'Info',
             message: 'Delete canceled'
-          });          
+          });        
         });
       }
   }

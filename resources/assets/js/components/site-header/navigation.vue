@@ -107,6 +107,19 @@ export default {
     border-bottom: 0px transparent !important;
   }
 
+  .el-submenu {
+    border-bottom: 0px transparent !important;
+
+    .el-submenu__title {
+      border-bottom: 0px transparent !important;
+    }
+  }
+
+  .is-active, .active li {
+    font-weight: 800;
+    color: black;
+  }
+
   .right {
     float: right;
   }

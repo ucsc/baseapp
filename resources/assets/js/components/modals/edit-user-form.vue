@@ -83,6 +83,11 @@ export default {
       await userStore.update(this.user, this.copiedUser.name, this.copiedUser.email, this.copiedUser.password)
       this.loading = false
       this.copiedUser = {}
+      // this.$notify({
+      //     title: 'Success',
+      //     message: 'User updated',
+      //     type: 'success'
+      //   })
       // Close dialog
       this.editUserFormVisible = false
     },
