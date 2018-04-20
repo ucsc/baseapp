@@ -1,5 +1,5 @@
 <template>
-  <div :id="[currentView == 'home' ? 'mainHero' : 'mainHead']">
+  <!-- <div> -->
     <!-- <h1 class="brand" v-once>{{ appTitle }}</h1> -->
     <!-- <span class="hamburger" @click="toggleSidebar">
       <i class="fa fa-bars"></i>
@@ -7,7 +7,7 @@
 
     <navigation/>
     <!-- <user-badge/> -->
-  </div>
+  <!-- </div> -->
 
 
 </template>
@@ -41,25 +41,9 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../sass/partials/_vars.scss";
-@import "../../../sass/partials/_mixins.scss";
+// @import "../../../sass/partials/_vars.scss";
+// @import "../../../sass/partials/_mixins.scss";
 
-  .el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    // line-height: 60px;
-  }
-
-   .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  }
   
-  body > .el-container {
-    margin-bottom: 40px;
-  }
 
 </style>

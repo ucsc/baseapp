@@ -2,6 +2,8 @@ import { each, find, without } from 'lodash'
 import md5 from 'blueimp-md5'
 import Vue from 'vue'
 import NProgress from 'nprogress'
+// import axios from 'axios'
+// import jsonp from 'jsonp'
 
 import { http } from '@/services'
 import { alerts } from '@/utils'
@@ -92,7 +94,64 @@ export const userStore = {
       user = this.current
     }
 
-    Vue.set(user, 'avatar', `https://www.gravatar.com/avatar/${md5(user.email)}?s=256`)
+    // http.get(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`, ({ data }) => {
+    //     resolve(data)
+    //     if (data.jpegphoto) {
+    //       Vue.set(user, 'avatar', `${user.name}`)
+    //     } else {
+    //       Vue.set(user, 'avatar', '/img/UC_Seal.png')
+    //     }
+    //   }, error => reject(error));
+
+    // axios.defaults.headers.common['X-CSRF-TOKEN'] = '*';
+// Vue.http.headers.common['Access-Control-Allow-Origin'] = true;
+// Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
+
+    // axios.get(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`).then(response => {
+    //     console.log(response.data)
+    //     if(response.data.jpegphoto) {
+    //       // window.localStorage.setItem('jwt-token',  JSON.stringify(response.data.token))
+    //       // console.log(response.data.token)
+    //       // event.emit('user:loggedin')
+    //     } else {
+    //       // console.log('else')
+    //     }
+    //   }).catch(error => {
+    //     // console.log('no')
+    //   });
+
+    // $http.jsonp(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`).then(response => {
+    // // get body data
+    // console.log(response.body)
+    // }, response => { });
+
+    // import jsonp from 'jsonp'
+
+// const jsonp = require('jsonp');
+
+// jsonp(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`, null, (err, data) => {
+//   if (err) {
+//     console.error(err.message);
+//   } else {
+//     console.log(data);
+//   }
+// });
+
+
+      // new Promise((resolve, reject) => {
+      //   http.jsonp(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`, ({ data }) => {
+      //     resolve(data)
+      //   }, error => reject(error))
+      // });
+
+//       this.$http.jsonp('https://front.tpondemand.com/api/v1/UserStories?token=xxxxxxxxxxxxxxxxxxxxx&format=json')
+// .then(response => {
+// console.log(response)
+// })
+
+    //Vue.set(user, 'avatar', `https://www.gravatar.com/avatar/${md5(user.email)}?s=256&d=404`)
+    // https://campusdirectory.ucsc.edu/photo.php?type=people&uid=jrosczyk
+    // Vue.set(user, 'avatar', `https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`)
   },
 
   /**

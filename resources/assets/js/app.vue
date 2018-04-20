@@ -1,9 +1,9 @@
 <template>
 
 
-  <main>
+  <el-container class="wrapper">
 
-    <el-header><site-header/></el-header>
+    <el-header :id="[currentView=='home'?'hero':'']"><site-header/></el-header>
     <el-main><main-wrapper/></el-main>
     <el-footer><site-footer/></el-footer>
 
@@ -14,7 +14,7 @@
 
     <!-- <login-form @loggedin="onUserLoggedIn" ref="loginForm"/> -->
 
-  </main>
+  </el-container>
 
 </template>
 
@@ -170,8 +170,39 @@ Vue.directive('baseapp-clickaway', clickawayDirective)
 
 <style lang="scss">
 @import "resources/assets/sass/partials/_vars.scss";
-@import "resources/assets/sass/partials/_mixins.scss";
+// @import "resources/assets/sass/partials/_mixins.scss";
 // @import "resources/assets/sass/partials/_shared.scss";
+
+
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    // line-height: 60px;
+  }
+
+  #hero {
+    height: 500px !important;
+    background-color: red;
+  }
+
+
+  // .el-header {
+  //   height: 200px;
+  // }
+
+   .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    // line-height: 160px;
+  }
+  
+  body > .el-container {
+    // margin-bottom: 40px;
+  }
+
+
 
 // #dragGhost {
 //   position: absolute;

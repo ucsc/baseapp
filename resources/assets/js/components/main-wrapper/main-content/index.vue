@@ -1,11 +1,10 @@
 <template>
-  <section id="mainContent">
-    <div class="translucent"></div>
+  <el-container>
     <home v-show="view === 'home'"/>
     <about v-show="view === 'about'"/>
     <users v-show="view === 'users'"/>
     <profile v-show="view === 'profile'"/>
-  </section>
+  </el-container>
 </template>
 
 <script>

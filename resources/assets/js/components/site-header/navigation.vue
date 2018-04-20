@@ -96,7 +96,7 @@ export default {
 
 <style lang="scss">
 @import "../../../sass/partials/_vars.scss";
-@import "../../../sass/partials/_mixins.scss";
+// @import "../../../sass/partials/_mixins.scss";
 
 .el-menu {
   background-color: transparent !important;

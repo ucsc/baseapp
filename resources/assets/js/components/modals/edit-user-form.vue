@@ -29,11 +29,16 @@
   </div> -->
 
   <el-dialog :title="'Edit user: ' + user.name" :visible.sync="editUserFormVisible">
-  <el-form :model="copiedUser">
-    <el-form-item label="Name" :label-width="formLabelWidth">
+  <el-form :model="copiedUser" status-icon>
+    <el-form-item label="Name" prop="name" :label-width="formLabelWidth" :rules="[
+      { required: true, message: 'Please input a username', trigger: 'blur,change'}
+    ]">
       <el-input v-model="copiedUser.name" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="Email" :label-width="formLabelWidth">
+    <el-form-item label="Email" :label-width="formLabelWidth" prop="email" :rules="[
+      { required: true, message: 'Please input email address', trigger: 'blur,change' },
+      { type: 'email', message: 'Please input correct email address', trigger: 'blur,change' }
+    ]">
       <el-input v-model="copiedUser.email" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="Password" :label-width="formLabelWidth">

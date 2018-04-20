@@ -25,7 +25,7 @@
 
 
     <el-card :body-style="{ padding: '0px' }" :class="{ me: isCurrentUser }">
-      <img :src="user.avatar" class="image">
+      <img :src="user.avatar" @error="imageLoadError" class="image">
       <div style="padding: 14px;">
         <h2>{{ user.name }} <i v-if="isCurrentUser" class="you fa fa-check-circle"/></h2>
         <p>{{ user.email }}</p>
@@ -70,6 +70,10 @@ export default {
   },
 
   methods: {
+    imageLoadError () {
+      console.log('Image failed to load');
+      this.user.avatar = "http://www.gravatar.com/avatar/d8f98df8a6ed24a727b993ea01cc91f6?s=256&d=404"
+    },
     /**
      * Trigger editing a user.
      * If the user is the current logged-in user, redirect to the profile screen instead.
