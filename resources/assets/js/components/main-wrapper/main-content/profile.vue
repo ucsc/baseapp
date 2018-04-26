@@ -4,7 +4,49 @@
       <span>Profile</span>
     </h1>
 
-    <div class="main-scroll-wrap">
+    <el-form :model="state.current" ref="state.current" status-icon label-width="120px">
+      <el-form-item label="Name">
+        <el-input v-model="state.current.name"></el-input>
+      </el-form-item>
+      <el-form-item prop="email" label="Email" :rules="[
+          { required: true, message: 'Please input email address', trigger: 'blur' },
+          { type: 'email', message: 'Please input correct email address', trigger: 'blur,change' }
+        ]">
+        <el-input v-model="state.current.email"></el-input>
+      </el-form-item>
+
+      <p class="help">If you want to change your password, enter it below. 
+        <br> Otherwise, just leave the next two fields empty. It’s OK – no one will judge you.
+      </p>
+
+
+      <el-form-item label="Password" prop="pass" :rules="[
+          { validator: validatePass, trigger: 'blur' }
+        ]">
+        <el-input type="password" v-model="pass" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="Confirm" prop="checkPass" :rules="[
+          { validator: validatePass2, trigger: 'blur, change' }
+        ]">
+        <el-input type="password" v-model="checkPass" auto-complete="off"></el-input>
+      </el-form-item>
+      
+      <el-form-item>
+        <el-button type="primary" @click="update">Save</el-button>
+      </el-form-item>
+    </el-form>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div class="main-scroll-wrap">
       <form @submit.prevent="update">
         <div class="form-row">
           <label for="inputProfileName">Name</label>
@@ -38,7 +80,10 @@
         </div>
       </form>
 
-    </div>
+    </div> -->
+
+
+
   </section>
 </template>
 
@@ -50,13 +95,56 @@ import { http, ls } from '@/services'
 
 export default {
   data () {
+    //    const validatePass = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('Please input the password'));
+    //   } else {
+    //     if (this.checkPass !== '') {
+    //       this.$refs.profileForm.validateField('checkPass');
+    //     }
+    //     callback();
+    //   }
+    // };
+    // const validatePass2 = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('Please input the password again'));
+    //   } else if (value !== this.pass) {
+    //     callback(new Error('Two inputs don\'t match!'));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     return {
       state: userStore.state,
       cache: userStore.stub,
-      pwd: '',
-      confirmPwd: '',
-      sharedState: sharedStore.state
+      pass: '',
+      checkPass: '',
+      sharedState: sharedStore.state,
+      profileForm: {
+        pass: '',
+        checkPass: '',
+        profile: userStore.state.current
+      }
     }
+    // var validatePass = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('Please input the password'));
+    //   } else {
+    //     if (this.checkPass !== '') {
+    //       this.$refs.profileForm.validateField('checkPass');
+    //     }
+    //     callback();
+    //   }
+    // };
+    // var validatePass2 = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('Please input the password again'));
+    //   } else if (value !== this.pass) {
+    //     callback(new Error('Two inputs don\'t match!'));
+    //   } else {
+    //     callback();
+    //   }
+    // };
   },
 
   methods: {
@@ -64,20 +152,44 @@ export default {
      * Update the current user's profile.
      */
     async update () {
-      const passwordFields = Array.from(
-        document.querySelectorAll('#inputProfilePassword, #inputProfileConfirmPassword')
-      )
-      // A little validation put in a small place.
-      if ((this.pwd || this.confirmPwd) && this.pwd !== this.confirmPwd) {
-        each(passwordFields, el => $.addClass(el, 'error'))
-        return
+      // const passwordFields = Array.from(
+      //   document.querySelectorAll('#inputProfilePassword, #inputProfileConfirmPassword')
+      // )
+      // // A little validation put in a small place.
+      // if ((this.pwd || this.confirmPwd) && this.pwd !== this.confirmPwd) {
+      //   each(passwordFields, el => $.addClass(el, 'error'))
+      //   return
+      // }
+
+      // each(passwordFields, el => $.removeClass(el, 'error'))
+
+      await userStore.updateProfile(this.pass)
+      this.pass = ''
+      this.checkPass = ''
+    },
+
+    validatePass(rule, value, callback) {
+      // console.log(this.$refs.profileForm.pass.validateField('checkPass'));
+      if (value === '') {
+        callback(new Error('Please input the password'));
+      } else {
+        if (this.checkPass !== '') {
+          this.$refs.state.current.validateField('checkPass');
+          // this.$refs.ruleForm2.validateField('checkPass');
+          // console.log('123');
+        }
+        callback();
       }
+    },
 
-      each(passwordFields, el => $.removeClass(el, 'error'))
-
-      await userStore.updateProfile(this.pwd)
-      this.pwd = ''
-      this.confirmPwd = ''
+    validatePass2(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('Please input the password again'));
+      } else if (value !== this.pass) {
+        callback(new Error('Two inputs don\'t match!'));
+      } else {
+        callback();
+      }
     }
 
 
@@ -86,46 +198,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../../../sass/partials/_vars.scss";
-@import "../../../../sass/partials/_mixins.scss";
 
-#profileWrapper {
-  input {
-    &[type="text"], &[type="email"], &[type="password"] {
-      width: 192px;
-    }
 
-    &.error {
-      // Chrome won't give up its autofill style, so this is kind of a hack.
-      box-shadow: 0 0 0px 1000px #ff867a inset;
-    }
-  }
 
-  .change-pwd {
-    margin-top: 24px;
-  }
-
-  .status {
-    margin-left: 8px;
-    color: $colorGreen;
-  }
-
-  .preferences {
-    margin-top: 32px;
-    border-top: 1px solid $color2ndBgr;
-
-    label {
-      font-size: $fontSize;
-    }
-  }
-
-  @media only screen and (max-width : 667px) {
-    input {
-      &[type="text"], &[type="email"], &[type="password"] {
-        width: 100%;
-        height: 32px;
-      }
-    }
-  }
-}
 </style>

@@ -39,43 +39,43 @@ export default {
 @import "../../../sass/partials/_vars.scss";
 @import "../../../sass/partials/_mixins.scss";
 
-#mainHeader {
-  height: $heroHeight;
-  background: $color2ndBgr;
-  display: flex;
-  border-bottom: 1px solid $colorMainBgr;
+// #mainHeader {
+//   height: $heroHeight;
+//   background: $color2ndBgr;
+//   display: flex;
+//   border-bottom: 1px solid $colorMainBgr;
 
-  h1.brand {
-    flex: 1;
-    color: $colorMainText;
-    font-size: 1.7rem;
-    font-weight: $fontWeight_UltraThin;
-    opacity: 0;
-    line-height: $heroHeight;
-    text-align: center;
-  }
+//   h1.brand {
+//     flex: 1;
+//     color: $colorMainText;
+//     font-size: 1.7rem;
+//     font-weight: $fontWeight_UltraThin;
+//     opacity: 0;
+//     line-height: $heroHeight;
+//     text-align: center;
+//   }
 
-  .hamburger, .magnifier {
-    font-size: 1.4rem;
-    flex: 0 0 48px;
-    order: -1;
-    line-height: $heroHeight;
-    text-align: center;
-    display: none;
-  }
+//   .hamburger, .magnifier {
+//     font-size: 1.4rem;
+//     flex: 0 0 48px;
+//     order: -1;
+//     line-height: $heroHeight;
+//     text-align: center;
+//     display: none;
+//   }
 
-  @media only screen and (max-width: 667px) {
-    display: flex;
-    align-content: stretch;
-    justify-content: flext-start;
+//   @media only screen and (max-width: 667px) {
+//     display: flex;
+//     align-content: stretch;
+//     justify-content: flext-start;
 
-    .hamburger, .magnifier {
-      display: inline-block;
-    }
+//     .hamburger, .magnifier {
+//       display: inline-block;
+//     }
 
-    h1.brand {
-      opacity: 1;
-    }
-  }
-}
+//     h1.brand {
+//       opacity: 1;
+//     }
+//   }
+// }
 </style>

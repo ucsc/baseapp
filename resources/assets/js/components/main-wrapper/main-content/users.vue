@@ -7,9 +7,7 @@
       </span>
 
       <div class="buttons" v-show="!isPhone || showingControls">
-        <button class="btn btn-green btn-add" @click="addUser">
-          <i class="fa fa-plus"></i>
-          Add</button>
+          <el-button @click="addUser" icon="el-icon-circle-plus">Add</el-button>
       </div>
     </h1>
 

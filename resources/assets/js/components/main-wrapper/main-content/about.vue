@@ -1,25 +1,14 @@
 <template>
   <section id="homeWrapper">
     <h1 class="heading">
-      <span>Hello</span>
+      <span>About</span>
     </h1>
-
-    <el-date-picker
-      v-model="value1"
-      type="datetime"
-      placeholder="Select date and time">
-    </el-date-picker>
 
     <div class="main-scroll-wrap" @scroll="scrolling" ref="wrapper">
       <div class="two-cols">
-        Hello World
+        About World
       </div>
 
-      
-
-      
-
-      <to-top-button/>
     </div>
   </section>
 </template>
@@ -41,27 +30,14 @@ export default {
 
   data () {
     return {
-      value1: ''
+      value1: '',
+      state: userStore.state,
     }
   },
 
   computed: {
-  },
-
-  methods: {
-    /**
-     * Refresh the dashboard with latest data.
-     */
-    refreshDashboard () {
-      
-    }
-  },
-
-  created () {
-    event.on({
-      'baseapp:ready': () => this.refreshDashboard()
-    })
   }
+
 }
 </script>
 

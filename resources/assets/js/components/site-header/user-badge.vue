@@ -10,9 +10,10 @@
     </span>
 
     <span class="profile" id="userBadge" v-else>
-      <button class="view-profile control" @click="loginYes">
+      <el-button type="text" @click="loginYes">Login</el-button>
+      <!-- <button class="view-profile control" @click="loginYes">
         <span class="login">Login</span>
-      </button>
+      </button> -->
     </span>
     <!-- <login-form ref="loginForm"/> -->
   </div>
@@ -82,42 +83,42 @@ export default {
 @import "../../../sass/partials/_vars.scss";
 @import "../../../sass/partials/_mixins.scss";
 
-#userBadge {
-  @include vertical-center();
-  justify-content: flex-end;
-  flex: 0 0 $extraPanelWidth;
-  padding-right: 16px;
-  text-align: right;
+// #userBadge {
+//   @include vertical-center();
+//   justify-content: flex-end;
+//   flex: 0 0 $extraPanelWidth;
+//   padding-right: 16px;
+//   text-align: right;
 
-  .avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
+//   .avatar {
+//     width: 24px;
+//     height: 24px;
+//     border-radius: 50%;
+//     margin-right: 8px;
+//   }
 
-  .view-profile {
-    margin-right: 16px;
-    @include vertical-center();
-  }
+//   .view-profile {
+//     margin-right: 16px;
+//     @include vertical-center();
+//   }
 
-  @media only screen and (max-width : 667px) {
-    flex: 0 0 96px;
-    margin-right: 0;
-    padding-right: 0;
-    align-content: stretch;
+//   @media only screen and (max-width : 667px) {
+//     flex: 0 0 96px;
+//     margin-right: 0;
+//     padding-right: 0;
+//     align-content: stretch;
 
-    .name {
-      display: none;
-    }
+//     .name {
+//       display: none;
+//     }
 
-    .view-profile, .logout {
-      flex: 0 0 40px;
-      font-size: 1.4rem;
-      margin-right: 0;
+//     .view-profile, .logout {
+//       flex: 0 0 40px;
+//       font-size: 1.4rem;
+//       margin-right: 0;
 
-      @include vertical-center();
-    }
-  }
-}
+//       @include vertical-center();
+//     }
+//   }
+// }
 </style>
