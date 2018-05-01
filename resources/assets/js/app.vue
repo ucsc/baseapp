@@ -1,10 +1,18 @@
 <template>
-  <el-container id="">
+
+
+  <el-container>
+
+    <el-header :id="[currentView=='home'?'hero':'']"><site-header/></el-header>
+    <el-main><main-wrapper/><div class="push"></div></el-main>
+    <el-footer><site-footer/></el-footer>
+
+<!-- 
     <site-header/>
     <main-wrapper/>
-    <site-footer/>
+    <site-footer/> -->
 
-    <login-form @loggedin="onUserLoggedIn" ref="loginForm"/>
+    <!-- <login-form @loggedin="onUserLoggedIn" ref="loginForm"/> -->
 
   </el-container>
 
@@ -16,17 +24,19 @@ import Vue from 'vue'
 import siteHeader from './components/site-header/index.vue'
 import siteFooter from './components/site-footer/index.vue'
 import mainWrapper from './components/main-wrapper/index.vue'
-import overlay from './components/shared/overlay.vue'
-import loginForm from './components/modals/login-form.vue'
+// import overlay from './components/shared/overlay.vue'
+// import loginForm from './components/modals/login-form.vue'
 
-import { event, showOverlay, hideOverlay, forceReloadWindow, $ } from './utils'
+// import { event, showOverlay, hideOverlay, forceReloadWindow, $ } from './utils'
+import { event, forceReloadWindow, $ } from './utils'
 import { sharedStore, userStore, checkStore } from './stores'
 import { ls, socket, http } from './services'
 import { focusDirective, clickawayDirective } from './directives'
 import router from './router'
 
 export default {
-  components: { siteHeader, siteFooter, mainWrapper, overlay, loginForm },
+  components: { siteHeader, siteFooter, mainWrapper },
+  // components: { siteHeader, siteFooter, mainWrapper, overlay, loginForm },
 
   data () {
     return {
@@ -50,9 +60,9 @@ export default {
 
 
     // And the textarea to copy stuff
-    const copyArea = document.createElement('textarea')
-    copyArea.id = 'copyArea'
-    document.body.appendChild(copyArea)
+    // const copyArea = document.createElement('textarea')
+    // copyArea.id = 'copyArea'
+    // document.body.appendChild(copyArea)
 
     // Add an ugly mac/non-mac class for OS-targeting styles.
     // I'm crying inside.
@@ -61,14 +71,14 @@ export default {
 
   methods: {
     async init () {
-      showOverlay()
+      // showOverlay()
       await socket.init()
 
       // Make the most important HTTP request to get all necessary data from the server.
       // Afterwards, init all mandatory stores and services.
       try {
         await sharedStore.init()
-        hideOverlay()
+        // hideOverlay()
         console.log('w1')
 
         // Let all other components know we're ready.
@@ -141,9 +151,9 @@ export default {
         this.currentView = view
       },
 
-      'login:open': () => {
-        this.$refs.loginForm.open()
-      }
+      // 'login:open': () => {
+      //   this.$refs.loginForm.open()
+      // }
 
     })
 
@@ -160,53 +170,116 @@ Vue.directive('baseapp-clickaway', clickawayDirective)
 
 <style lang="scss">
 @import "resources/assets/sass/partials/_vars.scss";
-@import "resources/assets/sass/partials/_mixins.scss";
-@import "resources/assets/sass/partials/_shared.scss";
+// @import "resources/assets/sass/partials/_mixins.scss";
+// @import "resources/assets/sass/partials/_shared.scss";
 
-#dragGhost {
-  position: absolute;
-  display: inline-block;
-  background: $colorGreen;
-  padding: .8rem;
-  border-radius: .2rem;
-  color: #fff;
-  font-family: $fontFamily;
-  font-size: 1rem;
-  font-weight: $fontWeight_Thin;
-  top: -100px;
-  left: 0px;
 
-  /**
-   * We can totally hide this element on touch devices, because there's
-   * no drag and drop support there anyway.
-   */
-  html.touchevents & {
-    display: none;
+
+
+  .el-header {
+    background-color: #0B5FA6;
+    height: 75px !important;
+    padding-top: 7px;
   }
-}
 
-#copyArea {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  bottom: 1px;
-
-  html.touchevents & {
-    display: none;
+  .el-header, .el-footer {
+    // background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    // line-height: 60px;
   }
-}
 
-#main, .login-wrapper {
+  .el-footer {
+    background-color: #F0F0EF;
+    height: 80px !important;
+  }
+
+  #hero {
+    height: 100% !important;
+    background-color: #0B5FA6;
+    padding: 30px 90px 60px 90px;
+  }
+
+
+  // .el-header {
+  //   height: 200px;
+  // }
+
+   .el-main {
+    background-color: #F9F9F8;
+    color: #333;
+    text-align: center;
+    // line-height: 160px;
+  }
+  
+  body > .el-container {
+    margin-bottom: 0px;
+  }
+
+  html, body {
+  height: 100% !important;
+  background-color: #0B5FA6;
+  font-family: 'PT Sans', sans-serif;
+}
+body {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
-  padding-bottom: $footerHeight;
+}
+.el-main {
+  flex: 1 0 auto;
+}
+.el-footer {
+  flex-shrink: 0;
+
+  border-top: #E7E7E6 1px solid;
 }
 
-.login-wrapper {
-  @include vertical-center();
 
-  padding-bottom: 0;
-}
+
+// #dragGhost {
+//   position: absolute;
+//   display: inline-block;
+//   background: $colorGreen;
+//   padding: .8rem;
+//   border-radius: .2rem;
+//   color: #fff;
+//   font-family: $fontFamily;
+//   font-size: 1rem;
+//   font-weight: $fontWeight_Thin;
+//   top: -100px;
+//   left: 0px;
+
+//   /**
+//    * We can totally hide this element on touch devices, because there's
+//    * no drag and drop support there anyway.
+//    */
+//   html.touchevents & {
+//     display: none;
+//   }
+// }
+
+// #copyArea {
+//   position: absolute;
+//   left: -9999px;
+//   width: 1px;
+//   height: 1px;
+//   bottom: 1px;
+
+//   html.touchevents & {
+//     display: none;
+//   }
+// }
+
+// #main, .login-wrapper {
+//   display: flex;
+//   min-height: 100vh;
+//   flex-direction: column;
+//   padding-bottom: $footerHeight;
+// }
+
+// .login-wrapper {
+//   @include vertical-center();
+
+//   padding-bottom: 0;
+// }
 </style>

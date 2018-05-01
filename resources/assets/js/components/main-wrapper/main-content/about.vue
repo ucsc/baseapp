@@ -21,27 +21,14 @@ export default {
 
   data () {
     return {
-      value1: ''
+      value1: '',
+      state: userStore.state,
     }
   },
 
   computed: {
-  },
-
-  methods: {
-    /**
-     * Refresh the dashboard with latest data.
-     */
-    refreshDashboard () {
-      
-    }
-  },
-
-  created () {
-    event.on({
-      'baseapp:ready': () => this.refreshDashboard()
-    })
   }
+
 }
 </script>
 

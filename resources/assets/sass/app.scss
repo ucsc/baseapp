@@ -1,11 +1,11 @@
 @charset "utf-8";
 
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif');
+
 @import "partials/_vars.scss";
 @import "partials/_mixins.scss";
 @import "partials/_hacks.scss";
 
 @import "vendor/_element.scss";
-@import "vendor/_nprogress.scss";
-@import "vendor/_alertify.scss";
 
-@import "partials/_shared.scss";
+// @import "partials/_shared.scss";

@@ -11,6 +11,8 @@ Vue.component('virtual-scroller', VirtualScroller)
 Vue.use(ElementUI, { locale })
 
 axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
+// Vue.http.headers.common['Access-Control-Allow-Origin'] = true;
+// Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
 
 
 var holder = new Vue({

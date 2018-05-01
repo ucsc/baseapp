@@ -9,6 +9,10 @@
 
 // });
 
+// Route::get('login', function () {
+//     return redirect('/');
+// })->middleware('login');
+
 Route::get('login/{cruzid}', function () {
     return redirect('/');
 })->middleware('login.test');
@@ -20,3 +24,7 @@ Route::get('logout', function () {
 Route::get('/', function () {
     return view('index');
 });
+
+// Route::any('/{all}', function () {
+//     return view('index');
+// })->where(['all' => '.*']);

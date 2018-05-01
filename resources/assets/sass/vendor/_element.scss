@@ -6,4 +6,6 @@ $--color-primary: $element-primary;
 /* icon font path, required */
 $--font-path: $element-font-path;
 
-@import "../../../../node_modules/element-ui/packages/theme-chalk/src/index";
+// @import "../../../../node_modules/element-ui/packages/theme-chalk/src/index";
+
+// @import "~element-ui/packages/theme-chalk/src/index";

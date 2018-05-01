@@ -1,16 +1,16 @@
 <template>
-  <div id="mainWrapper">
-    <sidebar/>
+  <!-- <div> -->
+    <!-- <sidebar/> -->
     <main-content/>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
-import sidebar from './sidebar/index.vue'
+// import sidebar from './sidebar/index.vue'
 import mainContent from './main-content/index.vue'
 
 export default {
-  components: { sidebar, mainContent }
+  components: { mainContent }
 }
 </script>
 
@@ -19,7 +19,7 @@ export default {
 @import "../../../sass/partials/_mixins.scss";
 
 #mainWrapper {
-  display: flex;
-  flex: 1;
+  // display: flex;
+  // flex: 1;
 }
 </style>
