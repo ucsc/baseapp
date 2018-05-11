@@ -10,9 +10,10 @@
     </span>
 
     <span class="profile" id="userBadge" v-else>
-      <button class="view-profile control" @click="loginYes">
+      <el-button type="text" @click="loginYes">Login</el-button>
+      <!-- <button class="view-profile control" @click="loginYes">
         <span class="login">Login</span>
-      </button>
+      </button> -->
     </span>
     <!-- <login-form ref="loginForm"/> -->
   </div>
@@ -59,9 +60,19 @@ export default {
       event.emit('logout')
     },
     loginYes () {
+      var url = location.protocol + '//' + location.hostname;
+      if (location.port) {
+        url = url + ':' + location.port ;
+      }
+      var pathname = window.location.pathname;   
+      if (pathname !== '/') {
+        url = url.concat(pathname);
+      }
+      url = url.concat('/login');
+      document.location.href = url  // go to shib
       // this.$refs.loginForm.open()
       // this.$dispatch('login-form')
-      event.emit('login:open')
+      //event.emit('login:open')
     },
     switchAuth (value=false) {
       this.authenticated = value

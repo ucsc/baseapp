@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'can' => Authorize::class,
         'throttle' => ThrottleRequests::class,
         'login.test' => \App\Http\Middleware\UserAuthTest::class,
+        'login' => \App\Http\Middleware\UserAuthShib::class,
         'logout' => \App\Http\Middleware\UserLogout::class,
     ];
 }

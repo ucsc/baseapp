@@ -7,6 +7,7 @@ use Illuminate\Database\SQLiteConnection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if(env('USE_SSL')){
+            URL::forceScheme('https');
+        }
         // Fix utf8mb4-related error starting from Laravel 5.4
         Schema::defaultStringLength(191);
 
