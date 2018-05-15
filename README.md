@@ -34,6 +34,7 @@ cd TO_YOUR_DIR # local or otherwise
 git clone https://github.com/ucsc/baseapp.git .
 git checkout v0.1.0 # Check out the latest version at https://github.com/ucsc/baseapp/releases
 composer install
+npm install
 php artisan baseapp:init # Populate credentials during the process
 ```
 
