@@ -60,9 +60,19 @@ export default {
       event.emit('logout')
     },
     loginYes () {
+      var url = location.protocol + '//' + location.hostname;
+      if (location.port) {
+        url = url + ':' + location.port ;
+      }
+      var pathname = window.location.pathname;   
+      if (pathname !== '/') {
+        url = url.concat(pathname);
+      }
+      url = url.concat('/login');
+      document.location.href = url  // go to shib
       // this.$refs.loginForm.open()
       // this.$dispatch('login-form')
-      event.emit('login:open')
+      //event.emit('login:open')
     },
     switchAuth (value=false) {
       this.authenticated = value

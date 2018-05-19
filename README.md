@@ -34,7 +34,6 @@ cd TO_YOUR_DIR # local or otherwise
 git clone https://github.com/ucsc/baseapp.git .
 git checkout v0.1.0 # Check out the latest version at https://github.com/ucsc/baseapp/releases
 composer install
-npm install
 php artisan baseapp:init # Populate credentials during the process
 ```
 
@@ -49,9 +48,7 @@ If you want more control, edit .env file. There's quite a few settings there to 
 ## Update
 
 Check out Releases for upgrade guides corresponding to your Baseapp version.
-
 ## Development
-
 1. Run php artisan serve to start the local server (if needed)
 2. Run yarn watch to auto-update and compile code while developing
 3. Visit localhost:8000/ to view the app

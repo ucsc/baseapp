@@ -9,13 +9,16 @@
 
 // });
 
-// Route::get('login', function () {
-//     return redirect('/');
-// })->middleware('login');
-
+if (env('APP_ENV') == "local") {
+    // use this version for local development testing only
 Route::get('login/{cruzid}', function () {
     return redirect('/');
 })->middleware('login.test');
+} else {
+    // use this version on a production server
+    Route::get('login', function () {
+    })->middleware('login');
+}
 
 Route::get('logout', function () {
     return redirect('/');

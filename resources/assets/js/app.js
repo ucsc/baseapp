@@ -18,7 +18,7 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
 var holder = new Vue({
     methods: {
         foo: function() {
-        	axios.get('/api/check').then(response => {
+        	axios.get('/api/check', { baseURL: BASE_URL }).then(response => {
 				console.log(response.data)
 				if(response.data.token) {
 					window.localStorage.setItem('jwt-token',  JSON.stringify(response.data.token))
