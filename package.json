@@ -19,10 +19,13 @@
       "stage-0"
     ],
     "plugins": [
-      ["babel-plugin-root-import", {
-        "rootPathSuffix": "resources/assets/js",
-        "rootPathPrefix": "@"
-      }]
+      [
+        "babel-plugin-root-import",
+        {
+          "rootPathSuffix": "resources/assets/js",
+          "rootPathPrefix": "@"
+        }
+      ]
     ]
   },
   "eslintConfig": {
@@ -36,6 +39,7 @@
     "alertify.js": "^1.0.12",
     "axios": "^0.15.3",
     "blueimp-md5": "^2.3.0",
+    "element-ui": "^2.0.7",
     "intersection-observer": "^0.2.0",
     "ismobilejs": "^0.4.0",
     "local-storage": "^1.4.2",
@@ -47,8 +51,7 @@
     "slugify": "^1.0.2",
     "vue": "^2.5.0",
     "vue-virtual-scroller": "^0.5.0",
-    "vuequery": "^1.0.0",
-    "element-ui": "^2.0.7"
+    "vuequery": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

@@ -49,3 +49,11 @@ If you want more control, edit .env file. There's quite a few settings there to 
 ## Update
 
 Check out Releases for upgrade guides corresponding to your Baseapp version.
+
+## Development
+
+1. Run php artisan serve to start the local server (if needed)
+2. Run yarn watch to auto-update and compile code while developing
+3. Visit localhost:8000/ to view the app
+4. Login at localhost:8000/login/your_username
+5. Edit the sqlite db users name to make your username an admin to see the user management crud option

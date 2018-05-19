@@ -2,6 +2,8 @@ import { each, find, without } from 'lodash'
 import md5 from 'blueimp-md5'
 import Vue from 'vue'
 import NProgress from 'nprogress'
+// import axios from 'axios'
+// import jsonp from 'jsonp'
 
 import { http } from '@/services'
 import { alerts } from '@/utils'
@@ -92,7 +94,64 @@ export const userStore = {
       user = this.current
     }
 
-    Vue.set(user, 'avatar', `https://www.gravatar.com/avatar/${md5(user.email)}?s=256`)
+    // http.get(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`, ({ data }) => {
+    //     resolve(data)
+    //     if (data.jpegphoto) {
+    //       Vue.set(user, 'avatar', `${user.name}`)
+    //     } else {
+    //       Vue.set(user, 'avatar', '/img/UC_Seal.png')
+    //     }
+    //   }, error => reject(error));
+
+    // axios.defaults.headers.common['X-CSRF-TOKEN'] = '*';
+// Vue.http.headers.common['Access-Control-Allow-Origin'] = true;
+// Vue.http.headers.common['Access-Control-Allow-Origin'] = '*';
+
+    // axios.get(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`).then(response => {
+    //     console.log(response.data)
+    //     if(response.data.jpegphoto) {
+    //       // window.localStorage.setItem('jwt-token',  JSON.stringify(response.data.token))
+    //       // console.log(response.data.token)
+    //       // event.emit('user:loggedin')
+    //     } else {
+    //       // console.log('else')
+    //     }
+    //   }).catch(error => {
+    //     // console.log('no')
+    //   });
+
+    // $http.jsonp(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`).then(response => {
+    // // get body data
+    // console.log(response.body)
+    // }, response => { });
+
+    // import jsonp from 'jsonp'
+
+// const jsonp = require('jsonp');
+
+// jsonp(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`, null, (err, data) => {
+//   if (err) {
+//     console.error(err.message);
+//   } else {
+//     console.log(data);
+//   }
+// });
+
+
+      // new Promise((resolve, reject) => {
+      //   http.jsonp(`https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`, ({ data }) => {
+      //     resolve(data)
+      //   }, error => reject(error))
+      // });
+
+//       this.$http.jsonp('https://front.tpondemand.com/api/v1/UserStories?token=xxxxxxxxxxxxxxxxxxxxx&format=json')
+// .then(response => {
+// console.log(response)
+// })
+
+    //Vue.set(user, 'avatar', `https://www.gravatar.com/avatar/${md5(user.email)}?s=256&d=404`)
+    // https://campusdirectory.ucsc.edu/photo.php?type=people&uid=jrosczyk
+    // Vue.set(user, 'avatar', `https://campusdirectory.ucsc.edu/photo.php?type=people&uid=${user.name}`)
   },
 
   /**
@@ -169,7 +228,7 @@ export const userStore = {
       http.post('user', { name, email, password }, ({ data: user }) => {
         this.setAvatar(user)
         this.all.unshift(user)
-        alerts.success(`New user &quot;${name}&quot; created.`)
+        alerts.success(`New user "${name}" created.`)
         resolve(user)
       }, error => reject(error))
     })
@@ -207,30 +266,8 @@ export const userStore = {
     return new Promise((resolve, reject) => {
       http.delete(`user/${user.id}`, {}, ({ data }) => {
         this.all = without(this.all, user)
-        alerts.success(`User &quot;${user.name}&quot; deleted.`)
+        // alerts.success(`User &quot;${user.name}&quot; deleted.`)
 
-        // Mama, just killed a man
-        // Put a gun against his head
-        // Pulled my trigger, now he's dead
-        // Mama, life had just begun
-        // But now I've gone and thrown it all away
-        // Mama, oooh
-        // Didn't mean to make you cry
-        // If I'm not back again this time tomorrow
-        // Carry on, carry on, as if nothing really matters
-        //
-        // Too late, my time has come
-        // Sends shivers down my spine
-        // Body's aching all the time
-        // Goodbye everybody - I've got to go
-        // Gotta leave you all behind and face the truth
-        // Mama, oooh
-        // I don't want to die
-        // I sometimes wish I'd never been born at all
-
-        /**
-         * Brian May enters the stage.
-         */
         resolve(data)
       }, error => reject(error))
     })

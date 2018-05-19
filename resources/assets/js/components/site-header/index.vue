@@ -1,20 +1,34 @@
 <template>
-  <el-header :id="[currentView == 'home' ? 'mainHero' : 'mainHead']">
-    <h1 class="brand" v-once>{{ appTitle }}</h1>
-    <span class="hamburger" @click="toggleSidebar">
+  <div>
+    <!-- <h1 class="brand" v-once>{{ appTitle }}</h1> -->
+    <!-- <span class="hamburger" @click="toggleSidebar">
       <i class="fa fa-bars"></i>
-    </span>
-    <user-badge/>
-  </el-header>
+    </span> -->
+
+    <navigation/>
+    <!-- <user-badge/> -->
+    <!-- <div v-if="currentView == 'home'" class="outer">
+      <div class="inner">
+        <p>"Be the change that you want to see in the world."</p>
+        <p class="author">Gandhi</p>
+      </div>
+    </div> -->
+
+    <el-row :gutter="20" v-if="currentView == 'home'">
+      <el-col :span="20" :offset="2" class="outer">
+
+        <el-row :gutter="20">
+          <el-col :span="22" :offset="1" class="inner">
+            <p>"Be the change that you want to see in the world."</p>
+            <p class="author">Gandhi</p>
+          </el-col>
+        </el-row>
+        
+      </el-col>
+    </el-row>
+  </div>
 
 
-  <!-- <header :id="[currentView == 'home' ? 'mainHeroHeader' : 'mainHeader']">
-    <h1 class="brand" v-once>{{ appTitle }}</h1>
-    <span class="hamburger" @click="toggleSidebar">
-      <i class="fa fa-bars"></i>
-    </span>
-    <user-badge/>
-  </header> -->
 
 </template>
 
@@ -22,9 +36,10 @@
 import config from '@/config'
 import { event } from '@/utils'
 import userBadge from './user-badge.vue'
+import navigation from './navigation.vue'
 
 export default {
-  components: { userBadge },
+  components: { userBadge, navigation },
 
   data () {
     return {
@@ -34,12 +49,7 @@ export default {
   },
 
   methods: {
-    /**
-     * No I'm not documenting this.
-     */
-    toggleSidebar () {
-      event.emit('sidebar:toggle')
-    }
+
   },
 
   created () {
@@ -50,87 +60,37 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "../../../sass/partials/_vars.scss";
-@import "../../../sass/partials/_mixins.scss";
+<style lang="scss" scoped>
+// @import "../../../sass/partials/_vars.scss";
+// @import "../../../sass/partials/_mixins.scss";
 
-#mainHeader {
-  height: $headerHeight;
-  background: $color2ndBgr;
-  display: flex;
-  border-bottom: 1px solid $colorMainBgr;
-
-  h1.brand {
-    flex: 1;
-    color: $colorMainText;
-    font-size: 1.7rem;
-    font-weight: $fontWeight_UltraThin;
-    opacity: 0;
-    line-height: $headerHeight;
-    text-align: center;
+  .outer {
+    margin-top: 40px;
+    padding: 20px 0;
+    // margin: 40px 90px 0 90px;
+    background-color: #0966AD;
+    border-radius: 5px;
   }
 
-  .hamburger, .magnifier {
-    font-size: 1.4rem;
-    flex: 0 0 48px;
-    order: -1;
-    line-height: $headerHeight;
-    text-align: center;
-    display: none;
-  }
+  .inner {
+    padding: 50px 0 40px 0;
+    background-color: #076CB3;
+    border-radius: 5px;
+    
+    letter-spacing: 0.0055em;
+    font-weight: 300;
 
-  @media only screen and (max-width: 667px) {
-    display: flex;
-    align-content: stretch;
-    justify-content: flext-start;
+    p {
+      color: #E7EFF6;
+      font-size: 34px;
+      padding: 20px 0;
 
-    .hamburger, .magnifier {
-      display: inline-block;
-    }
-
-    h1.brand {
-      opacity: 1;
+      &.author {
+        font-size: 13px;
+        text-transform: uppercase;
+      }
     }
   }
-}
+  
 
-#mainHeroHeader {
-  height: $heroHeight;
-  background: $color2ndBgr;
-  display: flex;
-  border-bottom: 1px solid $colorMainBgr;
-
-  h1.brand {
-    flex: 1;
-    color: $colorMainText;
-    font-size: 1.7rem;
-    font-weight: $fontWeight_UltraThin;
-    opacity: 0;
-    line-height: $heroHeight;
-    text-align: center;
-  }
-
-  .hamburger, .magnifier {
-    font-size: 1.4rem;
-    flex: 0 0 48px;
-    order: -1;
-    line-height: $heroHeight;
-    text-align: center;
-    display: none;
-  }
-
-  @media only screen and (max-width: 667px) {
-    display: flex;
-    align-content: stretch;
-    justify-content: flext-start;
-
-    .hamburger, .magnifier {
-      display: inline-block;
-    }
-
-    h1.brand {
-      opacity: 1;
-    }
-  }
-}
 </style>
