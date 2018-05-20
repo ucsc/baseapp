@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Init::class,
         Commands\GenerateJWTSecret::class,
+       'App\Console\Commands\AppDeploy',
+       'App\Console\Commands\AppPerms',
     ];
 
     /**
