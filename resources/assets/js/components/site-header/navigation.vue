@@ -57,7 +57,7 @@
       </el-menu-item>
 
       <el-menu-item index="5" class="right" v-else>
-        <a class="login" href="login/hi">Login</a>
+        <a class="login" @click="loginYes">Login</a>
       </el-menu-item>
   </el-menu>
 
