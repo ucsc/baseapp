@@ -44,6 +44,28 @@ createStorageDirs() {
     fi
 }
 
+set_htaccess () {
+
+    #it is really document root
+    #for now assume the script is run from this dir
+    #since all the artisan commands need to be 
+    foo=`pwd`
+    this_dir=`basename $foo`
+
+    TMPFILE=.htaccess.lamp.$$
+    if [ $_APP_ENV == "local" ]; then
+        echo "local - using default rule"
+    else
+        echo "hosted - using hosted rule"
+        # sed here
+        MYVAR='  RewriteRule \^(.\*)\$ '"${this_dir}"'\/index.php'
+        #MYVAR="$this_dir"
+        cat .htaccess | sed -e 's/  RewriteRule \.\* index.php \[L\]/'"$MYVAR"'/' > $TMPFILE
+        mv $TMPFILE .htaccess
+    fi
+}
+
+
 createEnv () {
     # could use a single file but would require more sed
 
@@ -57,6 +79,17 @@ createEnv () {
         mv $TMPFILE .env
     fi
 }
+
+set_sqlite () {
+    echo "updating .env file"
+    if [ -f .env ]; then
+        TMPFILE=.env.lamp.$$
+        #cp .env.lamp. $TMPFILE
+        cat .env | sed -e "s/mysql/sqlite/" > $TMPFILE
+        mv $TMPFILE .env
+    fi
+}
+
 _APP_ENV="local"
 _USE_SSL="false"
 _PLATFORM="local"
@@ -70,7 +103,7 @@ echo "Web Application Build"
 if [ "$#" -eq 0 ]; then
   #TODO extra flags for migrate and seed
 # perms
-  options=( npm composer gulp perms clearcache )
+  options=( npm composer gulp perms clearcache htaccess )
   echo "> performing default actions of"
 else
   options=( "$@" )
@@ -124,6 +157,11 @@ if [[ " ${options[@]} " =~ "sqlitedb" ]]; then
     if [ "$_PLATFORM" != "local" ] ; then
         chgrp apache9004 database/database.sqlite
     fi
+
+    # if env has mysql change it
+    set_sqlite
+    echo "completed sqlite setup"
+
 fi
 
 if [[ " ${options[@]} " =~ "npm" ]]; then
@@ -159,6 +197,14 @@ if [[ " ${options[@]} " =~ "composer" ]]; then
         echo "> composer is not installed, continuing"
     fi
 fi
+
+# clean build requires this
+if [[ " ${options[@]} " =~ "htaccess" ]]; then
+    echo "updating htaccess"
+    #update to local folder
+    set_htaccess
+fi
+
 
 if [[ " ${options[@]} " =~ "perms" ]]; then
 
@@ -198,18 +244,24 @@ fi
 
 chmod guo+r public/.htaccess 
 
-
 touch bootstrap/cache/services.php
-chgrp -R apache9004 bootstrap/cache
+if [ "$_PLATFORM" != "local" ] ; then
+    chgrp -R apache9004 bootstrap/cache
+fi
+
 chmod ug+rwx bootstrap/cache
 chmod ug+rw bootstrap/cache/services.php
 
-chgrp -R apache9004 storage
+if [ "$_PLATFORM" != "local" ] ; then
+    chgrp -R apache9004 storage
+fi
 if [ ! -f storage/logs/laravel.log ]; then 
     touch storage/logs/laravel.log
 fi
 chmod ug+rwx storage/logs/laravel.log
-chgrp apache9004 storage/logs/laravel.log
+if [ "$_PLATFORM" != "local" ] ; then
+    chgrp apache9004 storage/logs/laravel.log
+fi
 
 fi
 

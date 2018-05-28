@@ -21,11 +21,14 @@
   # Handle Front Controller...
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
+  
   #use this rule for local development
-  RewriteRule .* index.php [L]
+  #RewriteRule .* index.php [L]
   #use this rule for server deployment
   #RewriteRule ^(.*)$ baseapp/index.php
-
+  #php artisan baseapp:init updates the line below on LAMP
+  RewriteRule .* index.php [L]
+  
   # https://github.com/tymondesigns/jwt-auth/wiki/Authentication
   RewriteCond %{HTTP:Authorization} ^(.*)
   RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
