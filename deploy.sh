@@ -55,7 +55,6 @@ if [ -f $curDir/.env ]; then
   source $curDir/.env
   HASENV=1
 fi
-#exit
 
 #Deploy script
 #- determine the location of the app, based on the location of the running script (inside the root directory)
@@ -120,6 +119,7 @@ DEPLOY_HOST_PROD="its-prod-lamp-1"
 # change this if we ever start to build on jenkins
 
 if [ "$DEPLOY_LOCATION" == "" ]; then
+    echo "deploy location not set"
     if [ "$HASENV" == 1 ]; then 
       DEPLOY_LOCATION="/opt/app/apache9004/www/vhosts/lamp9004"
     else
@@ -140,7 +140,8 @@ if [ "$DEPLOY_FOLDER" == "" ]; then
   else 
     #DEPLOY_FOLDER="${DEPLOY_USER}-${appFolderName}"
     #donatemeals" # s.b. thisRepoName
-    DEPLOY_FOLDER="$thisRepoName"  # instead could use appFolderName
+    #DEPLOY_FOLDER="$thisRepoName"  # instead could use appFolderName
+    DEPLOY_FOLDER="${DEPLOY_USER}-${thisRepoName}-${thisBranchName}"  # instead could use appFolderName
   fi
 fi 
 
