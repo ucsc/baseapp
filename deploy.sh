@@ -73,10 +73,14 @@ appFolderName=$thisDir
 HASGIT=0;
 if [ -d ".git" ]; then
   echo ".git file present"
-  thisBranchName=`git branch | grep \* | cut -d" " -f2 | sed -e 's/\//-/'`
+  thisBranchName=`git branch | grep \* | cut -d" " -f2 `
+  thisBranchNameNormalized=`git branch | grep \* | cut -d" " -f2 | sed -e 's/\//-/'`
   thisRepoName=`basename $(git remote show -n origin | grep Fetch | cut -d: -f2-) | cut -d\. -f1`
   HASGIT=1
 fi
+
+
+
 
 #jenkins provides GIT_BRANCH
 
