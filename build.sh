@@ -49,11 +49,12 @@ set_htaccess () {
     #it is really document root
     #for now assume the script is run from this dir
     #since all the artisan commands need to be 
+    echo "setting htaccess"
     foo=`pwd`
     this_dir=`basename $foo`
 
     TMPFILE=.htaccess.lamp.$$
-    if [ $_APP_ENV == "local" ]; then
+    if [ "$_TIER" == "local" ]; then
         echo "local - using default rule"
     else
         echo "hosted - using hosted rule"
@@ -67,25 +68,40 @@ set_htaccess () {
 
 
 createEnv () {
+    if [ ! -f .env ]; then
+        echo "adding .env"
+        cp .env.example .env
+    fi
+    echo "setting env to $_APP_ENV"
     # could use a single file but would require more sed
+}
 
-    if [ $_APP_ENV = "local" ]; then
-        cp .env.localhost .env
+set_env () {
+    if [ "$_TIER" == "local" ]; then
+       echo "local, using default APP_ENV"
     else
         # sed here
         TMPFILE=.env.lamp.$$
-        #cp .env.lamp. $TMPFILE
-        cat .env.lamp | sed -e "s/local/$APP_ENV/" > $TMPFILE
+        echo "setting env to $_APP_ENV"
+        cat .env.example | sed -e "s/APP_ENV=local/APP_ENV=${_APP_ENV}/" > $TMPFILE
         mv $TMPFILE .env
     fi
 }
 
 set_sqlite () {
-    echo "updating .env file"
+    echo "updating .env file for sqlite"
+    if [ -f .env ]; then
+        TMPFILE=.env.tmp.$$
+        cat .env | sed -e "s/mysql/sqlite/" > $TMPFILE
+        mv $TMPFILE .env
+    fi
+}
+set_ssl () {
+    echo "updating .env file for ssl"
     if [ -f .env ]; then
         TMPFILE=.env.lamp.$$
         #cp .env.lamp. $TMPFILE
-        cat .env | sed -e "s/mysql/sqlite/" > $TMPFILE
+        cat .env | sed -e 's/USE_SSL=false/USE_SSL=true/' > $TMPFILE
         mv $TMPFILE .env
     fi
 }
@@ -103,7 +119,7 @@ echo "Web Application Build"
 if [ "$#" -eq 0 ]; then
   #TODO extra flags for migrate and seed
 # perms
-  options=( npm composer gulp perms clearcache htaccess )
+  options=( npm composer gulp clearcache env perms htaccess )
   echo "> performing default actions of"
 else
   options=( "$@" )
@@ -117,22 +133,26 @@ echo "HOSTNAME:"
 echo "$HOSTNAME"
 case "$HOSTNAME" in 
     "its-dev-lamp-1.ucsc.edu")
-    _APP_ENV="dev"
+    _TIER="dev"
+    _APP_ENV="production"
     _USE_SSL="true"
     _PLATFORM="lamp"
     ;;
     "its-stage-lamp-1.ucsc.edu")
-    _APP_ENV="stage"
+    _TIER="stage"
+    _APP_ENV="production"
     _USE_SSL="true"
     _PLATFORM="lamp"
     ;;
     "its-prod-lamp-1.ucsc.edu")
-    _APP_ENV="prod"
+    _TIER="prod"
+    _APP_ENV="production"
     _USE_SSL="true"
     _PLATFORM="lamp"
     ;;
     *)
     _APP_ENV="local"
+    _TIER="local"
     _USE_SSL="false"
     _PLATFORM="local"
     ;;
@@ -205,6 +225,12 @@ if [[ " ${options[@]} " =~ "htaccess" ]]; then
     set_htaccess
 fi
 
+if [[ " ${options[@]} " =~ "env" ]]; then
+    set_env
+    if [ "$_USE_SSL" == "true" ];then 
+        set_ssl
+    fi
+fi
 
 if [[ " ${options[@]} " =~ "perms" ]]; then
 
@@ -213,7 +239,23 @@ dirs_to_set_perms="app config cron public resources routes tests"
 umask
 env
 
-if [ "${_APP_ENV}" == "dev" ]; then
+
+if [[ " ${options[@]} " =~ "clean" ]]; then
+    echo "> running clean"
+    RESULT=$?
+    rm -rf vendor node_modules
+    rm -rf public/js
+    rm -rf public/css
+    rm -rf public/fonts
+    rm -rf public/img
+    rm -f public/index.php
+    rm -f bootstrap/cache/services.php
+    if [ $RESULT != 0 ]; then
+        echo "ERROR with clean: result $RESULT"
+        exit 1
+    fi
+fi
+if [ "${_TIER}" == "dev" ]; then
     echo "> updating perms for dev"
     #account for user with restrictive umask
     chmod -R o+r $dirs_to_set_perms
@@ -224,7 +266,7 @@ if [ "${_APP_ENV}" == "dev" ]; then
     chgrp its_web_admin public/.htaccess
 fi
 
-if [ "${_APP_ENV}" == "stage" ]; then
+if [ "${_TIER}" == "stage" ]; then
     echo "> updating perms for stage"    
     chmod -R o+r $dirs_to_set_perms
     chmod o+r *    
@@ -234,7 +276,7 @@ if [ "${_APP_ENV}" == "stage" ]; then
     chgrp its_web_admin public/.htaccess 
 fi
 
-if [ "${_APP_ENV}" == "prod" ]; then
+if [ "${_TIER}" == "prod" ]; then
     echo "> updating perms for prod"
     chgrp -R its_app_admin $dirs_to_set_perms
     chmod -R gu+w $dirs_to_set_perms
@@ -244,13 +286,18 @@ fi
 
 chmod guo+r public/.htaccess 
 
-touch bootstrap/cache/services.php
+if [[ " ${options[@]} " =~ "perms" ]]; then
+    echo "perms only"
+else
+    rm -f  bootstrap/cache/services.php
+fi
 if [ "$_PLATFORM" != "local" ] ; then
     chgrp -R apache9004 bootstrap/cache
 fi
 
 chmod ug+rwx bootstrap/cache
 chmod ug+rw bootstrap/cache/services.php
+chmod ug+rw bootstrap/autoload.php
 
 if [ "$_PLATFORM" != "local" ] ; then
     chgrp -R apache9004 storage
@@ -333,7 +380,7 @@ fi
 
 echo "app build completed." 
 
-if [ "$_APP_ENV"=="localhost" ]; then
+if [ "$_TIER" == "local" ]; then
   echo "to run application locally, type" 
   echo "php artisan serve"
   echo "which will serve the application as"

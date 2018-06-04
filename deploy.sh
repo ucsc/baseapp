@@ -73,7 +73,7 @@ appFolderName=$thisDir
 HASGIT=0;
 if [ -d ".git" ]; then
   echo ".git file present"
-  thisBranchName=`git branch | grep \* | cut -d" " -f2`
+  thisBranchName=`git branch | grep \* | cut -d" " -f2 | sed -e 's/\//-/'`
   thisRepoName=`basename $(git remote show -n origin | grep Fetch | cut -d: -f2-) | cut -d\. -f1`
   HASGIT=1
 fi
@@ -141,7 +141,7 @@ if [ "$DEPLOY_FOLDER" == "" ]; then
     #DEPLOY_FOLDER="${DEPLOY_USER}-${appFolderName}"
     #donatemeals" # s.b. thisRepoName
     #DEPLOY_FOLDER="$thisRepoName"  # instead could use appFolderName
-    DEPLOY_FOLDER="${DEPLOY_USER}-${thisRepoName}-${thisBranchName}"  # instead could use appFolderName
+    DEPLOY_FOLDER="${DEPLOY_USER}-${thisRepoName}-${thisBranchNameNormalized}"  # instead could use appFolderName
   fi
 fi 
 
