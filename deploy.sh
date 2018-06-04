@@ -264,7 +264,7 @@ options='-a --delete-after --exclude database/database.sqlite'
 # else
 #     other_options="--ignore-existing database/database.sqlite"
 # fi
-#runSync 'database' $options 
+runSync 'database' $options 
 
 runSync 'tests' '-a --delete-after'
 
