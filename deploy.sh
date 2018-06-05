@@ -325,8 +325,8 @@ ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/
 #ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan cache:clear"
 #ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan baseapp:init"
 
-ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; /bin/sh php artisan app:build --perms"
-ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; /bin/sh php artisan app:build --host"
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan app:build --perms"
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan app:build --host"
 
 if [ "$theURL" != "" ]; then
     echo "URL is"
