@@ -56,7 +56,7 @@ class Init extends Command
         print $process->getIncrementalOutput();
         //$process->run();
         while ($process->isRunning()) {
-            sleep(5);
+            sleep(1);
             print $process->getIncrementalOutput();
         }
 
