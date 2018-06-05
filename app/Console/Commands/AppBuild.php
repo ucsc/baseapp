@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -69,6 +69,7 @@ class AppBuild extends Command
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
+        Artisan::call('key:generate');
 
         // $process->getIncrementalOutput();
 
