@@ -258,32 +258,33 @@ if [[ " ${options[@]} " =~ "env" ]]; then
     fi
 fi
 
-if [[ " ${options[@]} " =~ "perms" ]]; then
-
-dirs_to_set_perms="app config cron public resources routes tests"
-
-rm -f bootstrap/cache/config.php
-touch bootstrap/cache/autoload.php
-
 if [[ " ${options[@]} " =~ "clean" ]]; then
     echo "> running clean"
-	
     composer dumpautoload
+    rm -f bootstrap/cache/config.php
+    touch bootstrap/cache/autoload.php
 
     php artisan cache:clear
     php artisan config:clear
    
-    rm -rf vendor node_modules
+    #rm -rf vendor
+    rm -rf node_modules
+
     rm -rf public/js
     rm -rf public/css
     rm -rf public/fonts
     rm -rf public/img
     rm -f public/index.php
+    
     #rm -rf storage/logs
+    #rm -f .env
     #rm -f database/database.sqlite
     rm -f bootstrap/cache/services.php
-
 fi
+
+if [[ " ${options[@]} " =~ "perms" ]]; then
+
+dirs_to_set_perms="app config cron public resources routes tests"
 
 if [ "${_TIER}" == "dev" ]; then
     echo "> updating perms for dev"

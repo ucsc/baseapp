@@ -249,10 +249,8 @@ runSync 'config'  '-a --ignore-existing config/app.php --ignore-existing config/
 #perform the sync of vendor and node_modules first. 
 # run the directories that require pruning first. 
 # consider making -a --delete after the default if no agr provided
-runSync 'vendor' '-a --delete-after'
-runSync 'node_modules' '-a --delete-after'
-runSync 'resources' '-a --delete-after'
-runSync 'app' '-a --delete-after'
+rsync -a vendor node_modules resources app ${DEST_BASE}/
+
 runSync 'public' '-a --delete-after --exclude public/import'
 runSync 'routes' '-a --delete-after'
 
@@ -273,7 +271,6 @@ runSync 'database' $options
 
 runSync 'tests' '-a --delete-after'
 
-runSync 'cascade_ws_ns' '-a --delete-after'
 
 #review
 runSync 'cron' '-a --ignore-existing'
