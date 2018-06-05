@@ -44,6 +44,28 @@ createStorageDirs() {
     fi
 }
 
+setStorageDirPerms() {
+
+chmod ug+rwx storage/framework
+chmod ug+rwx storage/framework/cache
+chmod ug+rwx storage/framework/sessions
+chmod ug+rwx storage/framework/views
+
+if [ "$_PLATFORM" != "local" ] ; then
+    chgrp -R apache9004 storage
+fi
+
+if [ ! -f storage/logs/laravel.log ]; then 
+    touch storage/logs/laravel.log
+fi
+chmod ug+rwx storage/logs/laravel.log
+
+if [ "$_PLATFORM" != "local" ] ; then
+    chgrp apache9004 storage/logs/laravel.log
+fi
+
+}
+
 set_htaccess () {
 
     #it is really document root
@@ -64,6 +86,7 @@ set_htaccess () {
         cat .htaccess | sed -e 's/  RewriteRule \.\* index.php \[L\]/'"$MYVAR"'/' > $TMPFILE
         mv $TMPFILE .htaccess
     fi
+
 }
 
 
@@ -73,7 +96,7 @@ createEnv () {
         cp .env.example .env
     fi
     echo "setting env to $_APP_ENV"
-    # could use a single file but would require more sed
+
 }
 
 set_env () {
@@ -96,6 +119,7 @@ set_sqlite () {
         mv $TMPFILE .env
     fi
 }
+
 set_ssl () {
     echo "updating .env file for ssl"
     if [ -f .env ]; then
@@ -160,6 +184,7 @@ esac
 
 
 #always run the .env check and auto-generate feature
+#composer also does this
 if [ -f .env ]; then
     echo ".env file detected, continuing"
 else
@@ -169,6 +194,7 @@ else
 fi
 
 createStorageDirs
+setStorageDirPerms
 
 
 if [[ " ${options[@]} " =~ "sqlitedb" ]]; then
@@ -236,25 +262,29 @@ if [[ " ${options[@]} " =~ "perms" ]]; then
 
 dirs_to_set_perms="app config cron public resources routes tests"
 
-umask
-env
-
+rm -f bootstrap/cache/config.php
+touch bootstrap/cache/autoload.php
 
 if [[ " ${options[@]} " =~ "clean" ]]; then
     echo "> running clean"
-    RESULT=$?
+	
+    composer dumpautoload
+
+    php artisan cache:clear
+    php artisan config:clear
+   
     rm -rf vendor node_modules
     rm -rf public/js
     rm -rf public/css
     rm -rf public/fonts
     rm -rf public/img
     rm -f public/index.php
+    #rm -rf storage/logs
+    #rm -f database/database.sqlite
     rm -f bootstrap/cache/services.php
-    if [ $RESULT != 0 ]; then
-        echo "ERROR with clean: result $RESULT"
-        exit 1
-    fi
+
 fi
+
 if [ "${_TIER}" == "dev" ]; then
     echo "> updating perms for dev"
     #account for user with restrictive umask
@@ -291,6 +321,7 @@ if [[ " ${options[@]} " =~ "perms" ]]; then
 else
     rm -f  bootstrap/cache/services.php
 fi
+php artisan config:clear
 if [ "$_PLATFORM" != "local" ] ; then
     chgrp -R apache9004 bootstrap/cache
 fi
@@ -298,17 +329,6 @@ fi
 chmod ug+rwx bootstrap/cache
 chmod ug+rw bootstrap/cache/services.php
 chmod ug+rw bootstrap/autoload.php
-
-if [ "$_PLATFORM" != "local" ] ; then
-    chgrp -R apache9004 storage
-fi
-if [ ! -f storage/logs/laravel.log ]; then 
-    touch storage/logs/laravel.log
-fi
-chmod ug+rwx storage/logs/laravel.log
-if [ "$_PLATFORM" != "local" ] ; then
-    chgrp apache9004 storage/logs/laravel.log
-fi
 
 fi
 

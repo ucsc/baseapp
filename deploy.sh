@@ -1,5 +1,8 @@
 #!/bin/bash
 # deploy
+
+
+#move all this code into artisan command
 usage() {
   echo "usage: "
   echo "deploy.sh" 
@@ -42,7 +45,12 @@ runSync() {
   return $retVal 
 }
 
-SYNC_LOG="storage/logs/mp_deploy.log"
+SYNC_LOG="storage/logs/app_deploy.log"
+
+if [ ! -d storage/logs ]; then
+    mkdir -p storage/logs
+fi
+
 
 curDir=`echo $PWD`
 #pwd
@@ -78,9 +86,6 @@ if [ -d ".git" ]; then
   thisRepoName=`basename $(git remote show -n origin | grep Fetch | cut -d: -f2-) | cut -d\. -f1`
   HASGIT=1
 fi
-
-
-
 
 #jenkins provides GIT_BRANCH
 
@@ -335,17 +340,12 @@ runSync 'composer.lock' '-ptgoD'
 #only if not there
 #runSync '.htaccess' '-ptgoD'
 
-# need to update .env file to USE_SSL=true
-options="perms"
-if [ "$DEPLOY_BUILD_TRIGGER" == "true" ]; then
-  options="" # default build action
-fi
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; rm -f bootstrap/cache/config.php"
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan config:clear"
+#ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan cache:clear"
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan baseapp:init"
 
-# set the deployment target - do we really need to do this for user folders on dev? 
-# TODO check the return code. Also ensure it is logged. 
-# we may want to initialize and seed a sqlite database
-# or explicitly publish the local sqlite file
-ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; /bin/sh -xv build.sh $options"
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; /bin/sh php artisan app:build --perms"
 
 if [ "$theURL" != "" ]; then
     echo "URL is"

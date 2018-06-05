@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\Init::class,
         Commands\GenerateJWTSecret::class,
        'App\Console\Commands\AppDeploy',
-       'App\Console\Commands\AppPerms',
+       'App\Console\Commands\AppBuild',
     ];
 
     /**

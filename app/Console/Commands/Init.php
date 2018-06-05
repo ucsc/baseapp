@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Artisan;
 use MediaCache;
 use File;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
 class Init extends Command
 {
     /**
@@ -45,6 +48,17 @@ class Init extends Command
         $this->comment('Attempting to install or upgrade Baseapp.');
         $this->comment('Remember, you can always install/upgrade manually following the guide here:');
         $this->info('📙  '.config('baseapp.misc.docs_url').PHP_EOL);
+        print "setting permissions, please wait\n";
+        #also takes care of env and htaccess file
+        $process = new Process('/bin/sh ./build.sh env perms htaccess');  
+
+        $process->start();
+        print $process->getIncrementalOutput();
+        //$process->run();
+        while ($process->isRunning()) {
+            sleep(5);
+            print $process->getIncrementalOutput();
+        }
 
         if (!config('app.key')) {
             $this->info('Generating app key');
