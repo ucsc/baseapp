@@ -95,17 +95,17 @@ createEnv () {
         echo "adding .env"
         cp .env.example .env
     fi
-    echo "setting env to $_APP_ENV"
+
 
 }
 
 set_env () {
+    echo "setting env to $_APP_ENV"
     if [ "$_TIER" == "local" ]; then
        echo "local, using default APP_ENV"
     else
         # sed here
         TMPFILE=.env.lamp.$$
-        echo "setting env to $_APP_ENV"
         cat .env.example | sed -e "s/APP_ENV=local/APP_ENV=${_APP_ENV}/" > $TMPFILE
         mv $TMPFILE .env
     fi
@@ -193,6 +193,7 @@ else
     createEnv
 fi
 
+
 createStorageDirs
 setStorageDirPerms
 
@@ -245,17 +246,14 @@ if [[ " ${options[@]} " =~ "composer" ]]; then
 fi
 
 # clean build requires this
-if [[ " ${options[@]} " =~ "htaccess" ]]; then
-    echo "updating htaccess"
+if [[ " ${options[@]} " =~ "host" ]]; then
     #update to local folder
-    set_htaccess
-fi
 
-if [[ " ${options[@]} " =~ "env" ]]; then
     set_env
     if [ "$_USE_SSL" == "true" ];then 
         set_ssl
     fi
+    set_htaccess
 fi
 
 if [[ " ${options[@]} " =~ "clean" ]]; then

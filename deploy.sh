@@ -306,33 +306,16 @@ runSync 'storage' '-lptgoD --ignore-existing storage'
 # for now, hand pick which top level scripts get deployed
 # make this a data list in a config files, fabric style
 
-runSync 'index.php' '-ptgoD'
-runSync 'server.php' '-ptgoD'
-runSync 'artisan' '-ptgoD'
-runSync 'package.json' '-ptgoD'
-runSync 'composer.json' '-ptgoD'
-runSync 'gulpfile.js' '-ptgoD'
-runSync 'deploy.sh' '-ptgoD'
-runSync 'build.sh' '-ptgoD'
+FILES_TO_SYNC="index.php server.php artisan package.json composer.json gulpfile.js deploy.sh build.sh readme.md webpack.mix.js phpunit.xml nitpick.json LICENSE.md yarn.lock webpack.mix.js .env.example package-lock.json composer.lock"
+rsync -ptgoD $FILES_TO_SYNC ${DEST_BASE}/ 
+
 #runSync 'public/favicon.ico' '-ptgoD'
 
-runSync 'readme.md' '-ptgoD'
+# runSync 'readme.md' '-ptgoD'
 #designed to be set up one time only
 runSync '.htaccess' '-ptgoD --ignore-existing'
+runSync '.env' '-ptgoD --ignore-existing'
 
-runSync 'webpack.mix.js' '-ptgoD'
-runSync 'phpunit.xml' '-ptgoD'
-runSync 'nitpick.json' '-ptgoD'
-runSync 'LICENSE.md' '-ptgoD'
-runSync 'yarn.lock' '-ptgoD'
-runSync 'webpack.mix.js' '-ptgoD'
-
-runSync '.env.lamp'  '-ptgoD'
-runSync '.env.localhost'  '-ptgoD'
-
-runSync '.env.example'  '-ptgoD'
-runSync 'package-lock.json' '-ptgoD'
-runSync 'composer.lock' '-ptgoD'
 
 #only if not there
 #runSync '.htaccess' '-ptgoD'
@@ -340,9 +323,10 @@ runSync 'composer.lock' '-ptgoD'
 ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; rm -f bootstrap/cache/config.php"
 ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan config:clear"
 #ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan cache:clear"
-ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan baseapp:init"
+#ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; php artisan baseapp:init"
 
 ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; /bin/sh php artisan app:build --perms"
+ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_LOCATION/$DEPLOY_FOLDER; PATH=/opt/rh/rh-php70/root/usr/bin:$PATH; /bin/sh php artisan app:build --host"
 
 if [ "$theURL" != "" ]; then
     echo "URL is"

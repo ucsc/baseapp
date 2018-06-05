@@ -16,6 +16,7 @@ class AppBuild extends Command
      */
     protected $signature = 'app:build 
      {--perms : set permissions}
+     {--host : set env and .htaccess}
      {--clean : clean build}
      {--build : build }
      ' ;
@@ -49,6 +50,31 @@ class AppBuild extends Command
 
       return $options;
     }
+    private function runHost()
+    {
+        print "starting host env update\n";
+
+        // this includes perms setting
+        $process = new Process('/bin/sh ./build.sh host');
+
+        $process->start();
+        print $process->getIncrementalOutput();
+        //$process->run();
+        while ($process->isRunning()) {
+            sleep(1);
+            print $process->getIncrementalOutput();
+        }
+
+        // executes after the command finishes
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        // $process->getIncrementalOutput();
+
+        //echo $process->getOutput();
+        print "done with build\n";
+    }
     
     private function runBuild()
     {
@@ -59,7 +85,7 @@ class AppBuild extends Command
         //$old_path = getcwd();
         //chdir('/my/path/');
         // set_time_limit(60*20);
-        print "starting build, please wait\n";
+        print "starting build\n";
 
         // this includes perms setting
         $process = new Process('/bin/sh ./build.sh');
@@ -86,7 +112,7 @@ class AppBuild extends Command
     
     private function setPerms() 
     {
-        print "setting permissions, please wait\n";
+        print "setting permissions \n";
         $process = new Process('/bin/sh ./build.sh perms');  
 
         $process->start();
@@ -110,7 +136,7 @@ class AppBuild extends Command
     
     private function cleanBuild() 
     {
-        print "cleaning build artifacts, please wait\n";
+        print "cleaning build artifacts\n";
         $process = new Process('/bin/sh ./build.sh clean');  
 
         $process->start();
@@ -145,6 +171,9 @@ class AppBuild extends Command
     	if ($options['clean'] == 1 ) {
             $this->cleanBuild();
     	} 
+    	if ($options['host'] == 1 ) {
+    	    $this->runHost();
+    	}
     	if ($options['build'] == 1 ) {
     	    $this->runBuild();
     	}
